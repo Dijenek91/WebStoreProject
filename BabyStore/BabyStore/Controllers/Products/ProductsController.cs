@@ -11,11 +11,13 @@ using BabyStore.DAL;
 
 namespace BabyStore.Controllers.Products
 {
+    [Authorize(Roles = "Admin")]
     public class ProductsController : Controller
     {
         private StoreContext db = new StoreContext();
 
         // GET: /Products/
+        [AllowAnonymous]
         public ActionResult Index(string category)
         {
             var products = db.Products.Include(p => p.Category);
@@ -27,6 +29,7 @@ namespace BabyStore.Controllers.Products
         }
 
         // GET: /Products/Details/5
+        [AllowAnonymous]
         public ActionResult Details(int? id)
         {
             if (id == null)

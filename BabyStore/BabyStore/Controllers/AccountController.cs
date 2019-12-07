@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using BabyStore.Models;
+using Microsoft.AspNet.Identity.Owin;
+using viewModel = BabyStore.ViewModels.Admin;
 
 namespace BabyStore.Controllers
 {
@@ -16,7 +18,7 @@ namespace BabyStore.Controllers
     public class AccountController : Controller
     {
         public AccountController()
-            : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
+            : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(System.Web.HttpContext.Current.GetOwinContext().Get<ApplicationDbContext>())))
         {
         }
 
@@ -64,8 +66,10 @@ namespace BabyStore.Controllers
         //
         // GET: /Account/Register
         [AllowAnonymous]
-        public ActionResult Register()
+        //[ValidateAntiForgeryToken] zaglupeo se djubre, i ne vidi u account/register da sam setovao antiforgeryToken
+        public async Task<ActionResult> Register(string returnUrl)
         {
+            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
@@ -74,25 +78,31 @@ namespace BabyStore.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(viewModel.RegisterViewModel registerViewModel, string returnUrl)
         {
-            if (ModelState.IsValid)
+           if(ModelState.IsValid)
             {
-                var user = new ApplicationUser() { UserName = model.UserName };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                var user = new ApplicationUser()
                 {
+                    UserName = registerViewModel.Email,
+                    Email = registerViewModel.Email,
+                    DateOfBirth = registerViewModel.DateOfBirth,
+                    FirstName = registerViewModel.FirstName,
+                    LastName = registerViewModel.LastName,
+                    Address = registerViewModel.Address
+                };
+                
+                var result = await UserManager.CreateAsync(user);
+                if(result.Succeeded)
+                {
+                    await UserManager.AddToRoleAsync(user.Id, "Users");
                     await SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index","Home");
                 }
-                else
-                {
-                    AddErrors(result);
-                }
-            }
 
-            // If we got this far, something failed, redisplay form
-            return View(model);
+                AddErrors(result);
+            }
+            return View(registerViewModel);
         }
 
         //

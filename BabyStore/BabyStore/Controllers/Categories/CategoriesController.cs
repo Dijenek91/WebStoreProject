@@ -11,17 +11,20 @@ using BabyStore.DAL;
 
 namespace BabyStore.Controllers.Categories
 {
+    [Authorize(Roles = "Admin")]
     public class CategoriesController : Controller
     {
         private StoreContext db = new StoreContext();
 
         // GET: /Categories/
+        [AllowAnonymous]
         public ActionResult Index()
         {
             return View(db.Categories.OrderBy(c => c.Name).ToList());
         }
 
         // GET: /Categories/Details/5
+        [AllowAnonymous]
         public ActionResult Details(int? id)
         {
             if (id == null)

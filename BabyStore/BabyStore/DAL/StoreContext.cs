@@ -21,6 +21,8 @@ namespace BabyStore.DAL
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
+
+        public System.Data.Entity.DbSet<BabyStore.ViewModels.Admin.RoleViewModel> RoleViewModels { get; set; }
     }
 }
  

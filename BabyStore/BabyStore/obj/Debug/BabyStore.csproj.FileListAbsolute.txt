@@ -108,3 +108,6 @@ D:\Life is Study\GitHub\WebStoreProject\BabyStore\BabyStore\bin\Microsoft.Owin.S
 D:\Life is Study\GitHub\WebStoreProject\BabyStore\BabyStore\obj\Debug\BabyStore.csprojResolveAssemblyReference.cache
 D:\Life is Study\GitHub\WebStoreProject\BabyStore\BabyStore\obj\Debug\BabyStore.dll
 D:\Life is Study\GitHub\WebStoreProject\BabyStore\BabyStore\obj\Debug\BabyStore.pdb
+D:\Life is Study\GitHub\WebStoreProject\BabyStore\BabyStore\obj\Debug\BabyStore.Migrations.InitialCreate.resources
+D:\Life is Study\GitHub\WebStoreProject\BabyStore\BabyStore\obj\Debug\BabyStore.csproj.GenerateResource.Cache
+D:\Life is Study\GitHub\WebStoreProject\BabyStore\BabyStore\obj\Debug\BabyStore.Migrations.update_user_fields.resources
